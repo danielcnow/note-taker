@@ -4,7 +4,7 @@ module.exports = function (app) {
     // application will talks to a db.json file to store and retrieve notes
 
     // get for /api/notes -
-    app.get("api/notes", function (req, res) {
+    app.get("/api/notes", function (req, res) {
         console.log("Getting your notes...")
         fs.readFile("db/db.json", "utf-8", (err, data) => {
             if (err) throw err;
@@ -13,6 +13,7 @@ module.exports = function (app) {
             res.json(notes);
         });
     });
+    
     // post request for api notes. receive new note on request of body, puts it in db.json, returns new note
     app.post("/api/notes", function (req, res) {
         fs.readFile("db/db.json", "utf8", (err, data) => {
@@ -20,11 +21,11 @@ module.exports = function (app) {
 
             let notes = JSON.parse(data);
 
-            let createNote = req.body
+            let newNote = req.body
             let newId = (notes.length).toString();
-            createNote.id = newId;
-            console.log(createNote);
-            notes.push(createNote);
+            newNote.id = newId;
+            console.log(newNote);
+            notes.push(newNote);
 
             fs.writeFileSync("db/db.json", JSON.stringify(notes), "utf-8", (err, data) => {
                 if (err) throw err;
